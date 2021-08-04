@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: traefik
+  name: iobroker-ingress
+  namespace: iobroker
+spec:
+  rules:
+  - host: iobroker.apps.k8s.cablevision-labs.com.ar
+    http:
+      paths:
+      - backend:
+          serviceName: iobroker-service
+          servicePort: 8081
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - iobroker.apps.k8s.cablevision-labs.com.ar
+    secretName: iobroker-cert-letsencrypt-prod
